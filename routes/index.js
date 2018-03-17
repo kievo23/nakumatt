@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 router.post('/receive', function(req, res, next){
 
 	console.log("body console");
-	console.log(req.body);
+	console.log(req.body.Body);
 
 	Order.create({
 		transcode: req.body.Body.stkCallback.CheckoutRequestID,
