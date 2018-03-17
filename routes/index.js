@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/receive', function(req, res, next){
+router.post('/receive', function(req, res, next){
 	console.log("params console");
 	console.log(req.params);
 
