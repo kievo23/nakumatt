@@ -15,6 +15,7 @@ router.get('/receive', function(req, res, next){
 
 	console.log("body console");
 	console.log(req.body);
+	
 });
 
 module.exports = router;
