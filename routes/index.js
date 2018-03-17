@@ -14,10 +14,10 @@ router.post('/receive', function(req, res, next){
 	console.log(req.body);
 
 	Order.create({
-		amount: req.body.stkCallback.CallbackMetadata.Item[0].Value,
+		transcode: req.body.Body.stkCallback.CheckoutRequestID,
+		amount: req.body.Body.stkCallback.CallbackMetadata.Item[0].Value,
 		phone: req.body.stkCallback.CallbackMetadata.Item[4].Value,
-		date: new Date(),
-		transcode: req.body.stkCallback.CheckoutRequestID
+		date: new Date()		
 	}, function(err, rst){
 		if(err)
 			console.log(err);
