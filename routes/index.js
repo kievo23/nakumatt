@@ -6,7 +6,7 @@ var role = require(__dirname + '/../config/Role');
 
 /* GET home page. */
 router.get('/', role.auth, function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Nakumatt' });
 });
 
 router.post('/receive', function(req, res, next){
