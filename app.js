@@ -76,14 +76,10 @@ app.get('/auth/google', passport.authenticate('google', { scope: [
 app.get( '/auth/google/callback', 
       passport.authenticate( 'google', { 
         failureRedirect: '/login'
-  }),
-  function(req, res) {
-    ssn = req.session;
-    if(ssn.returnUrl){
-      res.redirect(ssn.returnUrl);
-    }
-    res.redirect('/');
-  });
+}),
+function(req, res) {
+	res.redirect('/');
+});
 
 app.use('/', index);
 app.use('/users', users);
