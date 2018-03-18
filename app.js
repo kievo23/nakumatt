@@ -43,9 +43,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id).then(function(user){
+    done(null, user);
+  });
+});
 
 passport.use(new GoogleStrategy({
     clientID: '118322684414-ecjj1alfqvkj1knf16svb8mgbmdq23nj.apps.googleusercontent.com',
