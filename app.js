@@ -16,6 +16,7 @@ var cookieSession = require('cookie-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var User = require('./models/User');
 
 var app = express();
 
@@ -36,10 +37,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 passport.use(new GoogleStrategy({
-    clientID:     '118322684414-ecjj1alfqvkj1knf16svb8mgbmdq23nj.apps.googleusercontent.com',
+    clientID: '118322684414-ecjj1alfqvkj1knf16svb8mgbmdq23nj.apps.googleusercontent.com',
     clientSecret: 'ERjX7ARLGL8IzJ3hTZcquZc7',
     callbackURL: "https://nakumatt.herokuapp.com/auth/google/callback",
-    passReqToCallback   : true
+    passReqToCallback : true
   },
   function(request, accessToken, refreshToken, profile, done) {
     User.findOne({ googleId: profile.id }, function (err, user) {
