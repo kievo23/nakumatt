@@ -55,7 +55,7 @@ router.get('/login', function(req, res, next){
 	res.render('site/login',{title: "Nakumatt Login"});
 });
 
-app.get('/logout', function(req, res){
+router.get('/logout', function(req, res){
   req.logout();
   req.session = null;
   res.redirect("/");
