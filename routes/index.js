@@ -2,16 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 var Order = require(__dirname + '/../models/Product');
+var role = require(__dirname + '/../config/Role');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', role.auth, function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 router.post('/receive', function(req, res, next){
-
-	console.log("body console");
-	console.log(req.body.Body);
 
 	Order.create({
 		transcode: req.body.Body.stkCallback.CheckoutRequestID,
@@ -26,7 +24,7 @@ router.post('/receive', function(req, res, next){
 	res.redirect('/');
 });
 
-router.get('/orders', function(req, res, next) {
+router.get('/orders', role.admin, function(req, res, next) {
   Order.find({})
     .then(function(data){
       res.render('orders/index', {title: "Orders on Nakumatt", orders: data});
@@ -36,7 +34,7 @@ router.get('/orders', function(req, res, next) {
     });
 });
 
-router.get('/process/:id', function(req, res, next) {
+router.get('/process/:id', role.admin, function(req, res, next) {
 	Order.findById(req.params.id)
     .then(function(b){
 		b.processed = true;	    
@@ -62,7 +60,7 @@ router.get('/logout', function(req, res){
   res.end();
 });
 
-router.get('/processed', function(req, res, next) {
+router.get('/processed', role.auth, function(req, res, next) {
 	Order.find({
 		processed: true
 	})
