@@ -23,6 +23,7 @@ router.post('/receive', function(req, res, next){
 			console.log(err);
 		console.log(rst);
 	});
+	res.redirect('/');
 });
 
 module.exports = router;
