@@ -10,12 +10,11 @@ router.get('/', role.auth, function(req, res, next) {
 });
 
 router.post('/receive', function(req, res, next){
-
 	Order.create({
 		transcode: req.body.Body.stkCallback.CheckoutRequestID,
 		amount: req.body.Body.stkCallback.CallbackMetadata.Item[0].Value,
 		phone: req.body.Body.stkCallback.CallbackMetadata.Item[4].Value,
-		date: new Date()		
+		date: new Date()
 	}, function(err, rst){
 		if(err)
 			console.log(err);

@@ -144,18 +144,16 @@ html(lang='en')
                 i.fa.fa-remove
               span.hide-menu Navigation
           ul#side-menu.nav
-            li(style='padding: 70px 0 0;')
-              a.waves-effect(href='/dashboard')
-                i.fa.fa-clock-o.fa-fw(aria-hidden='true')
-                | Dashboard
-            li
-              a.waves-effect(href='/orders')
-                i.fa.fa-user.fa-fw(aria-hidden='true')
-                | Orders
-            li
-	          a.waves-effect(href='/processed')
-	            i.fa.fa-font.fa-fw(aria-hidden='true')
-	            | Available Order
+            if (user.role == 1)
+              li
+                a.waves-effect(href='/orders')
+                  i.fa.fa-user.fa-fw(aria-hidden='true')
+                  | Orders
+            if (user.role == 0)
+              li
+                a.waves-effect(href='/processed')
+                  i.fa.fa-font.fa-fw(aria-hidden='true')
+                  | Available Orders
             
           
       // ==============================================================
