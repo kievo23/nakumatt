@@ -1,0 +1,42 @@
+extends ../layout
+
+block content
+    #home.parallax-content-list.baner-content-listing-biz
+      .row
+        h3.box-title Businesses
+        .table-responsive
+          table.table
+            thead
+              tr
+                th #
+                th Order Id
+                th AMOUNT
+                th Phone
+                th Date
+                th Processed
+                th Delivery
+                th Actions
+            tbody
+              each biz,i in orders
+                tr
+                  td #{i+1}
+                  td.txt-oflo 
+                    a(href="/"+biz.slug)
+                      =biz.id
+                  td 
+                    =biz.amount
+                  td.txt-oflo 
+                    =biz.phone
+                  td
+                    span.text-success
+                      =biz.date
+                  td
+                    span.text-info
+                      =biz.processed
+                  td
+                    span.text-info
+                      =biz.delivery
+                  td
+                    span.text-info
+                        a(href="/accept/"+biz.id,title="Pick Order")
+                          i.fa.fa-check.fa-fw(aria-hidden='true')

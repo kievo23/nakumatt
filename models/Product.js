@@ -12,7 +12,8 @@ const orderSchema = new Schema({
 	date: Date,
 	trancode: String,
 	processed: Boolean,
-	delivery: String
+	delivery: String,
+	deliveryid: String
 });
 
 module.exports = mongoose.model('Order', orderSchema);

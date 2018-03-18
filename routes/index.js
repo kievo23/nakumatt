@@ -26,4 +26,45 @@ router.post('/receive', function(req, res, next){
 	res.redirect('/');
 });
 
+router.get('/orders', function(req, res, next) {
+  Order.find({})
+    .then(function(data){
+      res.render('orders/index', {title: "Orders on Nakumatt", orders: data});
+    })
+    .catch(function(err){
+       console.log(err);
+    });
+});
+
+router.get('/process/:id', function(req, res, next) {
+	Order.findById(req.params.id)
+    .then(function(b){
+		b.processed = true;	    
+		b.save(function(err){
+			if(err)
+				res.redirect('/orders');
+			res.redirect('/orders');
+		});
+    })
+    .catch(function(err){
+       console.log(err);
+    });
+});
+
+router.get('/login', function(req, res, next){
+	res.render('site/login',{title: "Nakumatt Login"});
+});
+
+router.get('/processed', function(req, res, next) {
+	Order.find({
+		processed: true
+	})
+    .then(function(data){
+      res.render('orders/processed', {title: "Listed orders", orders: data});
+    })
+    .catch(function(err){
+       console.log(err);
+    });
+});
+
 module.exports = router;

@@ -35,6 +35,55 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+passport.use(new GoogleStrategy({
+    clientID:     '118322684414-ecjj1alfqvkj1knf16svb8mgbmdq23nj.apps.googleusercontent.com',
+    clientSecret: 'ERjX7ARLGL8IzJ3hTZcquZc7',
+    callbackURL: "https://nakumatt.herokuapp.com/auth/google/callback",
+    passReqToCallback   : true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    User.findOne({ googleId: profile.id }, function (err, user) {
+      if(!user){
+        User.create({
+          googleid: profile.id,
+          names : profile.displayName,
+          email: profile.email,
+          username: profile.email,
+          role: '0'
+        },function(err, user){
+          return done(err, user);
+        })
+      }else{        
+        return done(null, user);
+      }      
+    }).catch(function(err){
+      console.log(err);
+    });
+  }
+));
+
+app.get('/auth/google', passport.authenticate('google', { scope: [
+       'https://www.googleapis.com/auth/plus.login',
+       'https://www.googleapis.com/auth/plus.profile.emails.read'] 
+}));
+
+// GET /auth/google/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get( '/auth/google/callback', 
+      passport.authenticate( 'google', { 
+        failureRedirect: '/login'
+  }),
+  function(req, res) {
+    ssn = req.session;
+    if(ssn.returnUrl){
+      res.redirect(ssn.returnUrl);
+    }
+    res.redirect('/');
+  });
+
 app.use('/', index);
 app.use('/users', users);
 
