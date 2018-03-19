@@ -15,6 +15,7 @@ block content
                 th Date
                 th Processed
                 th Delivery
+                th Delivery Person
                 th Actions
             tbody
               each biz,i in orders
@@ -36,6 +37,9 @@ block content
                   td
                     span.text-info
                       =biz.delivery
+                  td
+                    span.text-info
+                      =biz.deliveryid
                   td
                     span.text-info
                         a(href="/process/"+biz.id,title="Forward to delivery")

@@ -12,7 +12,7 @@ const orderSchema = new Schema({
 	date: Date,
 	trancode: String,
 	processed: Boolean,
-	delivery: String,
+	delivery: Boolean,
 	deliveryid: String
 });
 

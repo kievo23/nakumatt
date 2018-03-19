@@ -48,6 +48,24 @@ router.get('/process/:id', role.admin, function(req, res, next) {
     });
 });
 
+router.get('/pick/:id', role.auth, function(req, res, next) {
+	console.log(req);
+	Order.findById(req.params.id)
+    .then(function(b){
+		b.delivery = true;
+		b.deliveryid = res.locals.user.username;
+		console.log(b);	    
+		b.save(function(err){
+			if(err)
+				res.redirect('/processed');
+			res.redirect('/processed');
+		});
+    })
+    .catch(function(err){
+       console.log(err);
+    });
+});
+
 router.get('/login', function(req, res, next){
 	res.render('site/login',{title: "Nakumatt Login"});
 });
@@ -59,9 +77,22 @@ router.get('/logout', function(req, res){
   res.end();
 });
 
-router.get('/processed', role.auth, function(req, res, next) {
+router.get('/processed', role.auth, function(req, res, next){
 	Order.find({
-		processed: true
+		processed: true,
+		delivery: null
+	})
+    .then(function(data){
+      res.render('orders/processed', {title: "Listed orders", orders: data});
+    })
+    .catch(function(err){
+       console.log(err);
+    });
+});
+
+router.get('/myorders', role.auth, function(req, res, next) {
+	Order.find({
+		deliveryid: res.locals.user.username
 	})
     .then(function(data){
       res.render('orders/processed', {title: "Listed orders", orders: data});

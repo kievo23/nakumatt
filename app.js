@@ -56,7 +56,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: '118322684414-ecjj1alfqvkj1knf16svb8mgbmdq23nj.apps.googleusercontent.com',
     clientSecret: 'ERjX7ARLGL8IzJ3hTZcquZc7',
-    callbackURL: "https://nakumatt.herokuapp.com/auth/google/callback",
+    callbackURL: "http://localhost:3000/auth/google/callback",
     passReqToCallback : true
   },
   function(request, accessToken, refreshToken, profile, done) {
@@ -80,6 +80,18 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+app.use(function(req, res, next){
+  res.locals.success_msg = req.flash('success_msg') || null;
+  res.locals.error_msg = req.flash('error_msg') || null;
+  res.locals.error = req.flash('error') || null;
+  res.locals.user = req.user || null;
+  if(req.user != null){
+    next();
+  }else{
+     next();
+  }
+});
+
 app.get('/auth/google', passport.authenticate('google', { scope: [
        'https://www.googleapis.com/auth/plus.login',
        'https://www.googleapis.com/auth/plus.profile.emails.read'] 
@@ -98,17 +110,7 @@ function(req, res) {
 	res.redirect('/');
 });
 
-app.use(function(req, res, next){
-  res.locals.success_msg = req.flash('success_msg') || null;
-  res.locals.error_msg = req.flash('error_msg') || null;
-  res.locals.error = req.flash('error') || null;
-  res.locals.user = req.user || null;
-  if(req.user != null){
-    next();
-  }else{
-     next();
-  }
-});
+
 
 app.use('/', index);
 app.use('/users', users);
